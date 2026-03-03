@@ -87,6 +87,8 @@ npm run dev
 ```
 
 Application runs at:
+### live
+https://ai-movie-vert.vercel.app/
 
 ```
 http://localhost:3000

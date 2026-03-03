@@ -5,18 +5,19 @@ import MovieCard from '@/components/MovieCard';
 import CastList from '@/components/CastList';
 import ReviewSummary from '@/components/ReviewSummary';
 import ErrorMessage from '@/components/ErrorMessage';
+import { MovieResponse } from '@/lib/types';
+import { validateImdbId } from '@/lib/validation';
 
 export default function HomePage() {
   const [imdbId, setImdbId] = useState('');
   const [error, setError] = useState('');
-  const [movieData, setMovieData] = useState<any>(null);
+  const [movieData, setMovieData] = useState<MovieResponse | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const validateId = (id: string) => /^tt\d{7,8}$/.test(id);
 
   const handleSubmit = async () => {
     setError('');
-    if (!validateId(imdbId)) {
+
+    if (!validateImdbId(imdbId)) {
       setError('Please enter a valid IMDb ID (e.g., tt0133093)');
       return;
     }
@@ -25,45 +26,103 @@ export default function HomePage() {
       setLoading(true);
       setMovieData(null);
 
-      // Call our API route (we will implement next)
+      // Fetch Movie Data
       const res = await fetch(`/api/fetchMovie?imdbId=${imdbId}`);
-      if (!res.ok) throw new Error('Failed to fetch movie data');
-      const data = await res.json();
-      setMovieData(data);
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong');
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || 'Failed to fetch movie data');
+      }
+
+      const data: MovieResponse = await res.json();
+
+      // Fetch AI Summary (only if reviews exist)
+      let aiSummary = undefined;
+
+      if (data.reviews?.length > 0) {
+        const aiRes = await fetch('/api/summarize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reviews: data.reviews }),
+        });
+
+        if (aiRes.ok) {
+          aiSummary = await aiRes.json();
+        }
+      }
+
+      setMovieData({
+        ...data,
+        aiSummary,
+      });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Something went wrong');
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-4">
-      <h1 className="text-3xl font-bold mb-6">AI Movie Insight Builder</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#0b1120] via-[#0f172a] to-[#111827] text-gray-200 flex flex-col items-center px-6 py-16">
+      
+      {/* Hero Section */}
+      <div className="text-center max-w-3xl mb-14">
+        <p className="text-yellow-400 font-semibold tracking-wide mb-3">
+          AI-POWERED ANALYSIS
+        </p>
 
-      <div className="flex flex-col sm:flex-row gap-2 mb-4">
+        <h1 className="text-5xl font-extrabold leading-tight mb-6">
+          Decode Any Film with <span className="text-yellow-400">Artificial Intelligence</span>
+        </h1>
+
+        <p className="text-gray-400 text-lg">
+          Enter an IMDb ID to unlock deep audience insights, cultural analysis,
+          and predictive intelligence for any movie.
+        </p>
+      </div>
+
+      {/* Search Card */}
+      <div className="bg-[#111827] border border-gray-800 shadow-2xl rounded-2xl p-6 w-full max-w-2xl flex flex-col sm:flex-row gap-4">
         <input
           type="text"
-          placeholder="Enter IMDb ID (tt1234567)"
+          placeholder="Enter IMDb ID (tt0133093)"
           value={imdbId}
           onChange={(e) => setImdbId(e.target.value)}
-          className="border rounded px-4 py-2 w-full sm:w-64"
+          className="bg-[#0f172a] border border-gray-700 text-gray-200 rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
         />
+
         <button
           onClick={handleSubmit}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          disabled={loading}
+          className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition disabled:opacity-60"
         >
-          {loading ? 'Loading...' : 'Fetch Movie'}
+          {loading ? 'Analyzing...' : 'Analyze'}
         </button>
       </div>
 
-      {error && <ErrorMessage message={error} />}
+      {/* Error */}
+      {error && (
+        <div className="mt-6 w-full max-w-2xl">
+          <ErrorMessage message={error} />
+        </div>
+      )}
 
-      {movieData && (
-        <div className="mt-6 w-full max-w-4xl flex flex-col gap-4">
+      {/* Loading */}
+      {loading && (
+        <div className="mt-8 text-yellow-400 font-medium animate-pulse">
+          Generating AI-powered insights...
+        </div>
+      )}
+
+      {/* Results */}
+      {movieData && !loading && (
+        <div className="mt-16 w-full max-w-6xl flex flex-col gap-10 animate-fadeIn">
           <MovieCard data={movieData} />
           <CastList cast={movieData.actors} />
-          <ReviewSummary reviewData={movieData.aiSummary} />
+          <ReviewSummary reviewData={movieData} />
         </div>
       )}
     </div>

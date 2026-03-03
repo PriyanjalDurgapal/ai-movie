@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+#  AI Movie Insight Builder
 
-## Getting Started
+An AI-powered movie analysis web application built using **Next.js (App Router)**.
+The application fetches movie data from **The Movie Database (TMDB)** and generates intelligent summaries using the **OpenAI API**.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+##  Features
+
+*  Search movies using IMDb ID
+*  Fetch real-time movie details from TMDB API
+*  Generate AI-powered movie summaries
+*  Review summarization
+*  Cast listing display
+*  Robust input validation & error handling
+*  Unit & Component Testing using **Jest** and **React Testing Library**
+
+---
+
+##  Tech Stack
+
+* **Frontend:** Next.js 14 (App Router)
+* **Backend:** Next.js API Routes
+* **Language:** TypeScript
+* **Testing:** Jest + React Testing Library
+* **External API:** TMDB
+* **AI Integration:** OpenAI API
+* **Styling:** (Add Tailwind CSS / CSS Modules / etc. if used)
+
+---
+
+##  Project Structure
+
+```
+AI-MOVIE-INSIGHT-BUILDER/
+│
+├── app/                  # Next.js App Router
+│   ├── api/              # API Routes
+│   ├── layout.tsx
+│   └── page.tsx
+│
+├── components/           # Reusable UI Components
+├── lib/                  # Business Logic & Utilities
+├── __tests__/            # Unit & Component Tests
+│
+├── jest.config.ts
+├── jest.setup.ts
+└── tsconfig.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+##  Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file in the root directory:
 
-## Learn More
+```
+TMDB_API_KEY=your_tmdb_api_key
+OPENAI_API_KEY=your_openai_api_key
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Installation & Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1 Clone the repository
 
-## Deploy on Vercel
+```
+git clone <your-repo-url>
+cd AI-MOVIE-INSIGHT-BUILDER
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 2 Install dependencies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+npm install
+```
+
+### 3 Add environment variables
+
+Create `.env.local` and add your API keys.
+
+### 4 Start development server
+
+```
+npm run dev
+```
+
+Application runs at:
+
+```
+http://localhost:3000
+```
+
+---
+
+##  Running Tests
+
+Run all tests:
+
+```
+npm test
+```
+
+Generate coverage report:
+
+```
+npm test -- --coverage
+```
+
+This ensures business logic, validation, and components are properly tested.
+
+---
+
+##  What This Project Demonstrates
+
+* Clean component-based architecture
+* API integration with external services
+* AI-powered backend logic
+* Strong input validation
+* Proper error handling
+* Unit & component testing best practices
+* Alias mapping configuration for scalable structure
+
+---
+
+## Possible Future Improvements
+
+* Add user authentication
+* Implement caching layer
+* Improve UI/UX design
+* Add CI/CD pipeline
+* Deploy to **Vercel**
+
+---
+
+##  Author
+
+**Priyanjal**
+BCA | Full Stack Developer
+Java | Next.js | Backend Development Enthusiast

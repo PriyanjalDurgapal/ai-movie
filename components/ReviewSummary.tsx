@@ -19,40 +19,38 @@ export default function ReviewSummary({ reviewData }: { reviewData: ReviewData }
       : "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
 
   return (
-    <div className="bg-[#0f172a] border border-gray-800 shadow-2xl rounded-2xl p-8 text-gray-200">
-      <h3 className="text-2xl font-semibold mb-8 text-white">
+    <div className="bg-[#0f172a] border border-gray-800 shadow-2xl rounded-2xl p-5 sm:p-8 text-gray-200">
+      <h3 className="text-xl sm:text-2xl font-semibold mb-6 sm:mb-8 text-white">
         Audience Reviews & AI Insight
       </h3>
 
-      {/* AI Insight */}
       {reviewData.aiSummary && (
-        <div className="mb-10 p-6 rounded-xl bg-[#111827] border border-gray-700">
-          <h4 className="text-lg font-semibold mb-4 text-yellow-400">
-             AI Summary
+        <div className="mb-8 sm:mb-10 p-5 sm:p-6 rounded-xl bg-[#111827] border border-gray-700">
+          <h4 className="text-base sm:text-lg font-semibold mb-4 text-yellow-400">
+            AI Summary
           </h4>
 
-          <p className="text-gray-300 mb-5 leading-relaxed">
+          <p className="text-gray-300 mb-5 leading-relaxed text-sm sm:text-base">
             {reviewData.aiSummary.summary}
           </p>
 
           <span
-            className={`inline-block px-4 py-1 rounded-full text-sm font-semibold capitalize border ${sentimentStyles}`}
+            className={`inline-block px-4 py-1 rounded-full text-xs sm:text-sm font-semibold capitalize border ${sentimentStyles}`}
           >
             {sentiment} Sentiment
           </span>
         </div>
       )}
 
-      {/* Reviews */}
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-4 sm:gap-5">
         {reviewData.reviews?.length === 0 && (
-          <p className="text-gray-500">No reviews available.</p>
+          <p className="text-gray-500 text-sm">No reviews available.</p>
         )}
 
         {reviewData.reviews?.map((review, index) => (
           <div
             key={index}
-            className="border border-gray-800 rounded-xl p-5 bg-[#111827] text-sm text-gray-300 hover:border-yellow-500/30 transition"
+            className="border border-gray-800 rounded-xl p-4 sm:p-5 bg-[#111827] text-xs sm:text-sm text-gray-300 hover:border-yellow-500/30 transition"
           >
             {review.substring(0, 300)}...
           </div>

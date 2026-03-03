@@ -61,7 +61,7 @@ OPENAI_API_KEY=your_openai_api_key
 
 ---
 
-## 🛠 Installation & Setup
+## Installation & Setup
 
 ### 1 Clone the repository
 

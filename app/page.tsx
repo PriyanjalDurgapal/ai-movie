@@ -66,38 +66,41 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0b1120] via-[#0f172a] to-[#111827] text-gray-200 flex flex-col items-center px-6 py-16">
-      
+    <div className="min-h-screen bg-gradient-to-br from-[#0b1120] via-[#0f172a] to-[#111827] text-gray-200 flex flex-col items-center px-4 sm:px-6 md:px-8 py-10 sm:py-14 md:py-16">
+
       {/* Hero Section */}
-      <div className="text-center max-w-3xl mb-14">
-        <p className="text-yellow-400 font-semibold tracking-wide mb-3">
+      <div className="text-center max-w-3xl mb-10 sm:mb-12 md:mb-14 px-2">
+        <p className="text-yellow-400 font-semibold tracking-wide mb-3 text-sm sm:text-base">
           AI-POWERED ANALYSIS
         </p>
 
-        <h1 className="text-5xl font-extrabold leading-tight mb-6">
-          Decode Any Film with <span className="text-yellow-400">Artificial Intelligence</span>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-snug sm:leading-tight mb-4 sm:mb-6">
+          Decode Any Film with{' '}
+          <span className="text-yellow-400">
+            Artificial Intelligence
+          </span>
         </h1>
 
-        <p className="text-gray-400 text-lg">
+        <p className="text-gray-400 text-sm sm:text-base md:text-lg px-2 sm:px-0">
           Enter an IMDb ID to unlock deep audience insights, cultural analysis,
           and predictive intelligence for any movie.
         </p>
       </div>
 
       {/* Search Card */}
-      <div className="bg-[#111827] border border-gray-800 shadow-2xl rounded-2xl p-6 w-full max-w-2xl flex flex-col sm:flex-row gap-4">
+      <div className="bg-[#111827] border border-gray-800 shadow-2xl rounded-2xl p-4 sm:p-6 w-full max-w-2xl flex flex-col sm:flex-row gap-3 sm:gap-4">
         <input
           type="text"
           placeholder="Enter IMDb ID (tt0133093)"
           value={imdbId}
           onChange={(e) => setImdbId(e.target.value)}
-          className="bg-[#0f172a] border border-gray-700 text-gray-200 rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+          className="bg-[#0f172a] border border-gray-700 text-gray-200 rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-yellow-400 transition text-sm sm:text-base"
         />
 
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition disabled:opacity-60"
+          className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition disabled:opacity-60 w-full sm:w-auto text-sm sm:text-base"
         >
           {loading ? 'Analyzing...' : 'Analyze'}
         </button>
@@ -112,14 +115,14 @@ export default function HomePage() {
 
       {/* Loading */}
       {loading && (
-        <div className="mt-8 text-yellow-400 font-medium animate-pulse">
+        <div className="mt-6 sm:mt-8 text-yellow-400 font-medium animate-pulse text-sm sm:text-base text-center">
           Generating AI-powered insights...
         </div>
       )}
 
       {/* Results */}
       {movieData && !loading && (
-        <div className="mt-16 w-full max-w-6xl flex flex-col gap-10 animate-fadeIn">
+        <div className="mt-12 sm:mt-14 md:mt-16 w-full max-w-6xl flex flex-col gap-8 sm:gap-10 animate-fadeIn">
           <MovieCard data={movieData} />
           <CastList cast={movieData.actors} />
           <ReviewSummary reviewData={movieData} />
